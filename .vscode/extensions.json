@@ -1,0 +1,30 @@
+{
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript", "javascriptreact", "vue", "typescript", "typescriptreact"],
+  "eslint.format.enable": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "aeschli.vscode-css-formatter"
+  },
+  "[less]": {
+    "editor.defaultFormatter": "michelemelluso.code-beautifier"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  }
+}
