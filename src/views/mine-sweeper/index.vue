@@ -5,7 +5,16 @@
       <span class="btn" @click="changeMode('low')">基础</span>
       <span class="btn" @click="changeMode('medium')">中级</span>
       <span class="btn" @click="changeMode('high')">专家</span>
-      <span class="btn" @click="changeCustomMode">自定义</span>
+      <span class="btn" @click="changeMode('custom')">自定义</span>
+    </div>
+    <div class="custom-input-wrapper" v-if="currentMode === 'custom'">
+      横向：
+      <input type="text" v-model="customPreset.width" />
+      竖向：
+      <input type="text" v-model="customPreset.height" />
+      雷数：
+      <input type="text" v-model="customPreset.mineNum" />
+      <button @click="changeMode('custom')">确认</button>
     </div>
     <div class="info-wrapper">
       <span>{{ markNum }}</span>
@@ -82,24 +91,25 @@ const fieldClass = (field: MineField) => {
 
 const { list, reset, mineHandle, markMine, markNum, gameover, gamewin, counter } = useMineSweeper(sweeperData)
 
-const changeMode = (preset: 'low' | 'medium' | 'high') => {
-  sweeperData.value = config.preset[preset]
-  nextTick(() => {
-    reset()
-  })
-}
-
 const customPreset = ref({
   width: 12,
   height: 12,
   mineNum: 25
 })
 
+const currentMode = ref('medium')
 
-const changeCustomMode = () => {
-
+const changeMode = (preset: 'low' | 'medium' | 'high' | 'custom') => {
+  currentMode.value = preset
+  if (preset === 'custom') {
+    sweeperData.value = JSON.parse(JSON.stringify(customPreset.value))
+  } else {
+    sweeperData.value = config.preset[preset]
+  }
+  nextTick(() => {
+    reset()
+  })
 }
-
 </script>
 
 <style lang="less">
@@ -132,6 +142,16 @@ h1 {
     &:active {
       background: rgba(32, 128, 240, 0.28);
     }
+  }
+}
+
+.custom-input-wrapper {
+  margin: 10px 0;
+  input {
+    width: 36px;
+  }
+  button {
+    margin-left: 10px;
   }
 }
 

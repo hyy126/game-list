@@ -41,6 +41,8 @@ interface Options {
 export const useMineSweeper = (options: Ref<Options>) => {
   let { width, height, mineNum } = options.value
   let markNum = ref(mineNum)
+
+  // 响应式参数
   watch(options, () => {
     width = options.value.width
     height = options.value.height
@@ -49,10 +51,13 @@ export const useMineSweeper = (options: Ref<Options>) => {
 
   let list = ref<MineField[][]>([])
 
+  // 游戏计时
   const { counter, pause, resume } = useInterval(1000, { immediate: false, controls: true })
 
+  // 失败 mark
   let gameover = ref(false)
 
+  // 胜利 mark
   let gamewin = computed(() => showFieldNum.value === options.value.width * options.value.height)
 
   // 显示了多少个
