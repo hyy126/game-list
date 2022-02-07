@@ -5,7 +5,7 @@
       <span class="btn" @click="changeMode('low')">基础</span>
       <span class="btn" @click="changeMode('medium')">中级</span>
       <span class="btn" @click="changeMode('high')">专家</span>
-      <span class="btn">自定义</span>
+      <span class="btn" @click="changeCustomMode">自定义</span>
     </div>
     <div class="info-wrapper">
       <span>{{ markNum }}</span>
@@ -14,7 +14,7 @@
         :class="gameover ? 'icon-bukaixin' : gamewin ? 'icon-xiaolian-' : 'icon-kaixin'"
         @click="reset"
       ></i>
-      <span>倒计时</span>
+      <span>{{ counter }}</span>
     </div>
     <section class="game-wrapper" :style="responseSize">
       <template v-for="mineFileds) in list">
@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, ref } from 'vue';
-import config from './config'
+import config, { colorNumMap } from './config'
 import { useMineSweeper } from './useMineSweeper'
 import type { MineField } from './useMineSweeper'
 
@@ -80,10 +80,7 @@ const fieldClass = (field: MineField) => {
   return ['mineField', className]
 }
 
-// 数字颜色等阶
-const colorNumMap = new Map([[1, '#021AFF'], [2, '#1E8000'], [3, '#F80701'], [4, '#010780'], [5, '#800201'], [6, 'red']])
-
-const { list, reset, mineHandle, markMine, markNum, gameover, gamewin } = useMineSweeper(sweeperData)
+const { list, reset, mineHandle, markMine, markNum, gameover, gamewin, counter } = useMineSweeper(sweeperData)
 
 const changeMode = (preset: 'low' | 'medium' | 'high') => {
   sweeperData.value = config.preset[preset]
@@ -91,6 +88,18 @@ const changeMode = (preset: 'low' | 'medium' | 'high') => {
     reset()
   })
 }
+
+const customPreset = ref({
+  width: 12,
+  height: 12,
+  mineNum: 25
+})
+
+
+const changeCustomMode = () => {
+
+}
+
 </script>
 
 <style lang="less">
@@ -131,9 +140,20 @@ h1 {
   align-items: center;
   justify-content: space-between;
   margin: 6px 0;
+
   .emoj {
     cursor: pointer;
     font-size: 30px;
+  }
+  span {
+    width: 80px;
+  }
+
+  span:nth-child(1) {
+    text-align: left;
+  }
+  span:nth-child(3) {
+    text-align: right;
   }
 }
 .game-wrapper {

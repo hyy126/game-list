@@ -1,5 +1,6 @@
 import { computed, Ref, ref, watch } from "vue"
 import { grid3 } from './config'
+import { useInterval } from '@vueuse/core'
 
 export interface MineField {
   /**
@@ -48,6 +49,8 @@ export const useMineSweeper = (options: Ref<Options>) => {
 
   let list = ref<MineField[][]>([])
 
+  const { counter, pause, resume } = useInterval(1000, { immediate: false, controls: true })
+
   let gameover = ref(false)
 
   let gamewin = computed(() => showFieldNum.value === options.value.width * options.value.height)
@@ -56,6 +59,8 @@ export const useMineSweeper = (options: Ref<Options>) => {
   let showFieldNum = computed(() => list.value.flat().filter((field) => field.isShow || field.isMark).length)
 
   const init = () => {
+    counter.value = 0
+    resume();
     initList()
 
     // 获取地雷集合
@@ -151,6 +156,7 @@ export const useMineSweeper = (options: Ref<Options>) => {
   const reset = () => {
     list.value = []
     gameover.value = false
+    markNum.value = options.value.mineNum
     init()
   }
 
@@ -174,6 +180,7 @@ export const useMineSweeper = (options: Ref<Options>) => {
       field.hitMine = true
       gameover.value = true
       showAll()
+      pause()
     }
 
     if (field.mineNum === 0) {
@@ -215,7 +222,7 @@ export const useMineSweeper = (options: Ref<Options>) => {
     markMine,
     markNum,
     gameover,
-    gamewin,
+    gamewin, counter
   }
 }
 
