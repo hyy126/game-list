@@ -3,14 +3,20 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
+    "build-tsc": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "goeasy": "2.2.7",
+    "jsonwebtoken": "^8.5.1",
+    "naive-ui": "^2.25.1",
+    "pinia": "^2.0.11",
     "vue": "^3.2.25",
     "vue-router": "4"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.8",
     "@vitejs/plugin-vue": "^2.0.0",
     "@vueuse/core": "^7.5.5",
     "less": "^4.1.2",
